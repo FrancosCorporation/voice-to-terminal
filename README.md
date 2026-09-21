@@ -1,5 +1,23 @@
 # Voice to Terminal
 
+## 🐳 Instalação e Execução (Docker) — recomendado
+
+### Pré-requisitos
+- [Docker](https://docs.docker.com/get-docker/) + Docker Compose
+
+### Rodar com Docker
+```bash
+docker compose up --build
+```
+
+
+### Sem Docker (local)
+```bash
+npm install
+npm start
+```
+
+
 Execute comandos no terminal do servidor **por voz**, protegido por
 autenticação **Google**. Backend em Node.js (Express + Socket.io) e front-end
 que usa reconhecimento de fala do navegador.
