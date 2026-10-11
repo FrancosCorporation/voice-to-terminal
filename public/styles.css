@@ -1,0 +1,218 @@
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ─── Header ─── */
+    header {
+      padding: 16px 24px;
+      border-bottom: 1px solid #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #0d0d0d;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo svg { width: 28px; height: 28px; }
+
+    .logo h1 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .logo span { color: #22c55e; }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: #888;
+    }
+
+    .user-info img {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+    }
+
+    /* ─── Login Screen ─── */
+    #login-screen {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    #login-screen h2 {
+      font-size: 24px;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    #login-screen p {
+      color: #666;
+      font-size: 14px;
+      max-width: 400px;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .google-signin {
+      min-height: 44px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .login-status {
+      color: #888;
+      font-size: 13px;
+    }
+
+    /* ─── Main App ─── */
+    #app {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 20px 24px;
+      gap: 16px;
+    }
+
+    /* ─── Terminal ─── */
+    #terminal {
+      flex: 1;
+      background: #000;
+      border: 1px solid #1a1a1a;
+      border-radius: 12px;
+      padding: 16px;
+      overflow-y: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      min-height: 300px;
+      max-height: calc(100vh - 200px);
+    }
+
+    #terminal .line { white-space: pre-wrap; word-break: break-all; }
+    #terminal .line.stdout { color: #a0a0a0; }
+    #terminal .line.stderr { color: #ef4444; }
+    #terminal .line.info { color: #3b82f6; }
+    #terminal .line.exit { color: #22c55e; }
+    #terminal .line.error { color: #f59e0b; }
+    #terminal .line.cmd { color: #22c55e; font-weight: 600; }
+
+    /* ─── Controls ─── */
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+    }
+
+    .mic-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 2px solid #333;
+      background: #111;
+      color: #888;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .mic-btn:hover {
+      border-color: #22c55e;
+      color: #22c55e;
+      background: #0a1f0a;
+    }
+
+    .mic-btn.listening {
+      border-color: #ef4444;
+      color: #fff;
+      background: #7f1d1d;
+      animation: pulse 1.5s infinite;
+    }
+
+    .mic-btn svg { width: 24px; height: 24px; }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+      50% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
+    }
+
+    .status {
+      font-size: 13px;
+      color: #666;
+      flex: 1;
+    }
+
+    .status.active { color: #ef4444; }
+
+    .cmd-input {
+      flex: 1;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .cmd-input:focus { border-color: #22c55e; }
+
+    .cmd-input::placeholder { color: #444; }
+
+    .send-btn {
+      padding: 10px 20px;
+      background: #22c55e;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .send-btn:hover { background: #16a34a; }
+    .send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 600px) {
+      header { padding: 12px 16px; }
+      #app { padding: 12px 16px; }
+      .controls { flex-wrap: wrap; }
+      .cmd-input { width: 100%; }
+    }
+
+    #app[hidden],
+    #login-screen[hidden],
+    .login-error[hidden],
+    .login-status[hidden] { display: none; }
+
+    .login-error {
+      color: #ef4444;
+      font-size: 13px;
+    }

@@ -1,0 +1,43 @@
+services:
+  voice-to-terminal:
+    build: .
+    init: true
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      PORT: "3000"
+      HOST: 0.0.0.0
+      FRONTEND_ORIGIN: ${FRONTEND_ORIGIN:-http://localhost:3000}
+      WORKDIR: /workspace
+      COMMAND_HOME: /home/node
+      AUDIT_LOG_PATH: /data/audit.jsonl
+    ports:
+      - "127.0.0.1:${PORT:-3000}:3000"
+    volumes:
+      - workspace:/workspace
+      - audit-data:/data
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=64m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 64
+    cpus: 1.0
+    mem_limit: 512m
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3000/health').then((response) => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  workspace:
+  audit-data:
