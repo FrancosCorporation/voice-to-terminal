@@ -40,7 +40,7 @@ permanece intencional.
 | IMP-01 | Auditoria ausente | P1 | Implementado; arquivo local não é imutável |
 | IMP-02 | Client ID público sem documentação | P3 | Implementado/documentado |
 | TEST-01 | Sem testes de autenticação e execução | P1 | Pendente |
-| DEVOPS-01 | Sem CI | P2 | Workflow estático implementado; push/execução hospedada pendentes |
+| DEVOPS-01 | Sem CI | P2 | Implementado; CI remoto verde em `a1c1eb1` |
 | DEVOPS-02 | Shell arbitrário sem limites operacionais | P1 | Limites implementados; shell mantido por decisão de produto |
 | DEVOPS-03 | Container executava como root | P2 | Implementado |
 | DOC-01 | README não explicava o risco do shell | P1 | Implementado |
@@ -167,7 +167,7 @@ permanece intencional.
 - **Mudança:** CI executa `npm ci`, `npm run check`, `npm audit --omit=dev --audit-level=high` e uma barreira para a comparação com `EMAIL_ADMIN`.
 - **Aceite:** workflow versionado e execução hospedada verde; incluir `npm test` quando TEST-01 existir.
 - **Verificação local:** `npm run check && npm audit --omit=dev --audit-level=high`
-- **Estado:** workflow e checks locais implementados; push/execução hospedada dependem do escopo OAuth `workflow`.
+- **Estado:** workflow publicado; execução no commit `a1c1eb1` concluída com sucesso. `npm run check` e audit de produção passaram; o workflow não executa testes.
 
 ## 7. Documentação
 
@@ -193,9 +193,8 @@ permanece intencional.
 2. **Onda 2 — P1/P2:** SEC-05, DEVOPS-02, BUG-03, DEVOPS-03, BUG-01 e BUG-02.
 3. **Onda 3 — P2/P3:** SEC-04, DEVOPS-01, DOC-01, DOC-02 e IMP-02.
 
-As alterações de produção e documentação foram aplicadas. TEST-01 e o primeiro CI hospedado
-seguem pendentes. O token atual não tem escopo GitHub `workflow`, então commits somente de
-workflow ficam locais quando o push é recusado.
+As alterações de produção e documentação foram aplicadas. TEST-01 permanece pendente; o
+primeiro CI hospedado passou no commit `a1c1eb1`.
 
 ## 9. Fora de escopo e riscos
 
@@ -230,7 +229,7 @@ workflow ficam locais quando o push é recusado.
 - [x] IMP-01 — auditoria JSONL rotacionada, com limite e retenção; risco de adulteração documentado.
 - [x] IMP-02 — Client ID público documentado; sem Client Secret.
 - [ ] TEST-01 — suíte offline pendente.
-- [ ] DEVOPS-01 — workflow criado, push e execução remota pendentes.
+- [x] DEVOPS-01 — workflow publicado e execução remota verde em `a1c1eb1`.
 - [x] DOC-01 — README atualizado.
 - [x] DOC-02 — SECURITY.md criado.
 
