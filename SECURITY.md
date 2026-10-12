@@ -42,7 +42,8 @@ retenção regulatória, encaminhe os logs para um destino externo com controle 
 - Configure uma conta administrativa Google dedicada e proteja sua sessão e credenciais.
 - Não versione `.env`; use `.env.example` somente como modelo.
 - Mantenha a porta do Compose no loopback. Para acesso remoto, use HTTPS em proxy reverso e
-  defina `FRONTEND_ORIGIN` para a origem HTTPS exata.
+  defina `FRONTEND_ORIGIN` para a origem HTTPS exata. A aplicação rejeita origens HTTP remotas;
+  HTTP só é aceito em loopback para desenvolvimento local.
 - Não execute a versão local como root.
 - Os comandos podem acessar a rede e os arquivos montados em `/workspace`; não monte o socket
   Docker, diretórios de credenciais do host ou arquivos de segredo no container.

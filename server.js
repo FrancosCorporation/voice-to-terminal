@@ -13,6 +13,7 @@ require("dotenv").config();
 const crypto = require("crypto");
 const fs = require("fs");
 const http = require("http");
+const net = require("net");
 const os = require("os");
 const path = require("path");
 const { spawn } = require("child_process");
@@ -28,6 +29,18 @@ function readInteger(name, fallback, minimum, maximum) {
     throw new Error(`${name} deve ser um número inteiro entre ${minimum} e ${maximum}.`);
   }
   return value;
+}
+
+function isLoopbackHostname(hostname) {
+  const normalized = hostname.toLowerCase().replace(/^\[|\]$/g, "");
+  if (
+    normalized === "localhost" ||
+    normalized.endsWith(".localhost") ||
+    normalized === "::1"
+  ) {
+    return true;
+  }
+  return net.isIP(normalized) === 4 && normalized.startsWith("127.");
 }
 
 function readFrontendOrigin(value) {
@@ -48,6 +61,14 @@ function readFrontendOrigin(value) {
     parsed.password
   ) {
     throw new Error("FRONTEND_ORIGIN deve conter somente esquema, host e porta.");
+  }
+  if (
+    parsed.protocol === "http:" &&
+    !isLoopbackHostname(parsed.hostname)
+  ) {
+    throw new Error(
+      "FRONTEND_ORIGIN remoto precisa usar HTTPS; HTTP só é permitido em loopback.",
+    );
   }
   return parsed.origin;
 }

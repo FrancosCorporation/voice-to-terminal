@@ -34,6 +34,7 @@ permanece intencional.
 | SEC-03 | Sem rate limit ou teto de processos | P1 | Implementado |
 | SEC-04 | CSP desativada | P2 | Implementado |
 | SEC-05 | Saída sem limite | P2 | Implementado |
+| SEC-06 | Origem remota HTTP permitida na configuração | P1 | Implementado com validação fail-fast |
 | BUG-01 | Diretório de trabalho hardcoded | P2 | Implementado |
 | BUG-02 | Filhos sem encerramento gracioso | P2 | Implementado |
 | BUG-03 | Health não refletia disponibilidade | P2 | Implementado com fail-fast de configuração |
@@ -87,6 +88,14 @@ permanece intencional.
 - **Mudança:** limitar a saída transmitida por comando a 1 MiB por padrão e interromper o processo ao atingir o teto.
 - **Aceite:** saída excedente não é encaminhada e o cliente recebe um aviso explícito.
 - **Verificação:** `rg -n 'MAX_COMMAND_OUTPUT_BYTES|outputLimited|output_limit' server.js`
+
+### SEC-06 · Origem remota sem HTTPS · [P1]
+
+- **Arquivo:** `server.js`, `readFrontendOrigin`
+- **Evidência:** a configuração aceitava qualquer origem `http://`, embora o token Google e os comandos administrativos trafeguem pela conexão do browser; em HTTP remoto, o tráfego pode ser observado ou alterado na rede.
+- **Mudança:** permitir HTTP somente para nomes/IPs de loopback (`localhost`, `.localhost`, `127.0.0.0/8` e `::1`); origens HTTP remotas falham na inicialização com orientação para usar HTTPS.
+- **Aceite:** desenvolvimento local continua possível; acesso remoto deve usar origem HTTPS por proxy reverso.
+- **Verificação estática:** `rg -n 'isLoopbackHostname|FRONTEND_ORIGIN remoto precisa usar HTTPS' server.js`
 
 ### DEVOPS-02 · Shell arbitrário · [P1]
 
@@ -215,6 +224,7 @@ primeiro CI hospedado passou no commit `a1c1eb1`.
 - [x] SEC-03 — rate limit, concorrência e duração.
 - [x] SEC-04 — CSP ativa sem código/estilo inline.
 - [x] SEC-05 — teto de saída e encerramento do processo.
+- [x] SEC-06 — origem HTTP remota rejeitada na inicialização.
 - [x] DEVOPS-02 — shell documentado e limitado operacionalmente.
 - [x] DEVOPS-03 — container não-root e endurecido.
 

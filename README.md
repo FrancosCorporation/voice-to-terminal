@@ -64,6 +64,8 @@ Se mudar a porta, atualize `PORT` e `FRONTEND_ORIGIN` juntos.
 O Compose vincula a porta ao loopback. Para acessar remotamente, mantenha essa configuração e
 use um proxy reverso com HTTPS. Defina `FRONTEND_ORIGIN` para a origem pública exata, por
 exemplo `https://terminal.example.com`, e cadastre a mesma origem no OAuth Client do Google.
+O serviço recusa configuração HTTP para qualquer host fora de loopback; HTTP fica disponível
+para `localhost` durante desenvolvimento local.
 Não exponha o processo diretamente à Internet sem TLS e controles de rede.
 
 ## Limites e auditoria
