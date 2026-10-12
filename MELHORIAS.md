@@ -42,6 +42,7 @@ permanece intencional.
 | IMP-02 | Client ID público sem documentação | P3 | Implementado/documentado |
 | TEST-01 | Sem testes de autenticação e execução | P1 | Pendente |
 | DEVOPS-01 | Sem CI | P2 | Implementado; CI remoto verde em `a1c1eb1` |
+| DEVOPS-04 | Runner flutuante e CI em um runtime | P2 | Implementado; Ubuntu 24.04 e matriz Node 22/24 |
 | DEVOPS-02 | Shell arbitrário sem limites operacionais | P1 | Limites implementados; shell mantido por decisão de produto |
 | DEVOPS-03 | Container executava como root | P2 | Implementado |
 | DOC-01 | README não explicava o risco do shell | P1 | Implementado |
@@ -178,6 +179,14 @@ permanece intencional.
 - **Verificação local:** `npm run check && npm audit --omit=dev --audit-level=high`
 - **Estado:** workflow publicado; execução no commit `a1c1eb1` concluída com sucesso. `npm run check` e audit de produção passaram; o workflow não executa testes.
 
+### DEVOPS-04 · Runner flutuante e runtime incompleto na CI · [P2]
+
+- **Arquivo:** `.github/workflows/ci.yml`
+- **Evidência:** o projeto declara suporte a Node 22 e 24, mas só verificava Node 24 em `ubuntu-latest`. O GitHub Actions informou que o alias `ubuntu-latest` migra para Ubuntu 26 em 2026-10-19.
+- **Mudança:** fixar o runner em Ubuntu 24.04 e executar instalação, checagem sintática e audit nos dois runtimes declarados.
+- **Referência operacional:** anotação do CI `38194734862` indicou a migração do runner.
+- **Validação:** a nova matriz será confirmada pela CI após push; sem testes no workflow.
+
 ## 7. Documentação
 
 ### DOC-01 · README não explicava o risco · [P1]
@@ -240,6 +249,7 @@ primeiro CI hospedado passou no commit `a1c1eb1`.
 - [x] IMP-02 — Client ID público documentado; sem Client Secret.
 - [ ] TEST-01 — suíte offline pendente.
 - [x] DEVOPS-01 — workflow publicado e execução remota verde em `a1c1eb1`.
+- [x] DEVOPS-04 — runner fixo e matriz Node 22/24 configurados.
 - [x] DOC-01 — README atualizado.
 - [x] DOC-02 — SECURITY.md criado.
 
